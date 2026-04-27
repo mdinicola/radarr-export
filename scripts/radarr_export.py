@@ -46,6 +46,21 @@ def parse_args() -> argparse.Namespace:
         required=True,
         help="Absolute or relative path to write the export file.",
     )
+    parser.add_argument(
+        "--api-key",
+        help=(
+            "Radarr API key. Not recommended because command-line arguments can "
+            "be visible to other processes; prefer an environment variable."
+        ),
+    )
+    parser.add_argument(
+        "--api-key-env-var",
+        default="RADARR_API_KEY",
+        help=(
+            "Name of the environment variable containing the Radarr API key. "
+            "Defaults to RADARR_API_KEY."
+        ),
+    )
     return parser.parse_args()
 
 
@@ -76,6 +91,13 @@ def fetch_movies(radarr_url: str, api_key: str) -> list[dict[str, Any]]:
         raise RuntimeError("Radarr movie API returned an unexpected response")
 
     return movies
+
+
+def resolve_api_key(args: argparse.Namespace) -> str | None:
+    if args.api_key:
+        return args.api_key
+
+    return os.environ.get(args.api_key_env_var)
 
 
 def is_downloaded(movie: dict[str, Any]) -> bool:
@@ -186,9 +208,13 @@ def write_json(filename: Path, rows: list[dict[str, str]]) -> None:
 
 def main() -> int:
     args = parse_args()
-    api_key = os.environ.get("RADARR_API_KEY")
+    api_key = resolve_api_key(args)
     if not api_key:
-        print("Error: RADARR_API_KEY environment variable is not set.", file=sys.stderr)
+        print(
+            f"Error: Radarr API key not provided. Set {args.api_key_env_var} "
+            "or pass --api-key.",
+            file=sys.stderr,
+        )
         return 1
 
     try:
