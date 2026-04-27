@@ -22,6 +22,7 @@ FIELDNAMES = [
     "quality",
     "resolution",
     "format",
+    "videoDynamicRangeType",
 ]
 
 
@@ -130,6 +131,13 @@ def extract_format(movie_file: dict[str, Any]) -> str:
     return ""
 
 
+def extract_video_dynamic_range_type(movie_file: dict[str, Any]) -> str:
+    video_dynamic_range_type = get_nested(
+        movie_file, ["mediaInfo", "videoDynamicRangeType"]
+    )
+    return str(video_dynamic_range_type or "")
+
+
 def movie_link(radarr_url: str, movie: dict[str, Any]) -> str:
     slug = movie.get("titleSlug")
     if slug:
@@ -159,6 +167,7 @@ def export_row(radarr_url: str, movie: dict[str, Any]) -> dict[str, str]:
         "quality": str(quality or ""),
         "resolution": extract_resolution(movie_file),
         "format": extract_format(movie_file),
+        "videoDynamicRangeType": extract_video_dynamic_range_type(movie_file),
     }
 
 
