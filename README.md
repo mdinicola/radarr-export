@@ -4,7 +4,7 @@ Radarr export utilities.
 
 - `scripts/radarr_export.py`
   - Exports downloaded Radarr movies to CSV or JSON.
-  - Includes Radarr link, title, genre, quality, resolution, format, and video dynamic range type.
+  - Includes Radarr link, title, description, genre, quality, resolution, format, and video dynamic range type.
   - Requires Python 3.11+ and uses only the standard library.
   - Default API key source:
 

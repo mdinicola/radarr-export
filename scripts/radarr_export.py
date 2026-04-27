@@ -18,6 +18,7 @@ from urllib.request import Request, urlopen
 FIELDNAMES = [
     "radarr_link",
     "title",
+    "description",
     "genre",
     "quality",
     "resolution",
@@ -185,6 +186,7 @@ def export_row(radarr_url: str, movie: dict[str, Any]) -> dict[str, str]:
     return {
         "radarr_link": movie_link(radarr_url, movie),
         "title": str(movie.get("title") or ""),
+        "description": str(movie.get("overview") or ""),
         "genre": genre,
         "quality": str(quality or ""),
         "resolution": extract_resolution(movie_file),

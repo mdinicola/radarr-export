@@ -51,6 +51,9 @@ Export Fields:
     - Fall back to `<radarr-url>/movie/<id>` when `id` exists.
 - `title`
     - From movie `title`.
+- `description`
+    - From movie `overview`.
+    - Empty string when unavailable.
 - `genre`
     - From movie `genres`.
     - Join multiple genres with `, `.
@@ -77,11 +80,12 @@ Output:
 - Use this field order for CSV headers and JSON object keys:
     1. `radarr_link`
     2. `title`
-    3. `genre`
-    4. `quality`
-    5. `resolution`
-    6. `format`
-    7. `videoDynamicRangeType`
+    3. `description`
+    4. `genre`
+    5. `quality`
+    6. `resolution`
+    7. `format`
+    8. `videoDynamicRangeType`
 
 Error Handling:
 - Print clear errors to stderr.
