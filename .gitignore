@@ -134,3 +134,4 @@ dmypy.json
 # ------
 
 env_vars.sh
+output/
